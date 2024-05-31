@@ -1,55 +1,47 @@
 
-# Hash Functions and Hash Tables
+# JSON.parse function and REGEXP
 
-This repository contains an implementation of a hash table in TypeScript with a custom hash function. The project demonstrates the concepts of hash functions, collision resolution, and practical application of hash tables.
+### Task
 
-## Getting Started
+Implement a simplified version of the `JSON.parse` function in JavaScript using regular expressions. This assignment will test your understanding of JSON syntax and your ability to use regular expressions for pattern matching.
 
-### Prerequisites
+### **Part 1: JSON Syntax Understanding**
 
-- Node.js
-- npm (Node Package Manager)
+1. **JSON Syntax**: Begin by revisiting the JSON (JavaScript Object Notation) syntax. Make sure you understand the basic structure of JSON objects, arrays, strings, numbers, booleans, and null values.
+2. **Parsing Rules**: Familiarize yourself with the rules for parsing JSON, including how to handle nested objects and arrays.
 
-### Installing
+### **Part 2: JSON Parser Implementation**
 
-1. Clone the repository
-2. Navigate to the project directory
-3. Install dependencies
+1. **Implement JSON.parse**: Create a JavaScript function called `myJSONParse` that takes a JSON-formatted string as input and returns the corresponding JavaScript object. You should use regular expressions to tokenize and parse the input string.
+2. **Tokenization**: Implement tokenization by using regular expressions to identify JSON elements (objects, arrays, strings, numbers, booleans, null, etc.) in the input string.
+3. **Parsing**: Implement a parsing algorithm that processes the tokens generated in the previous step and constructs the corresponding JavaScript object.
+4. **Error Handling**: Ensure your implementation handles common JSON syntax errors gracefully and provides informative error messages when parsing fails.
+5. **Testing**: Test your `myJSONParse` function with various JSON strings to ensure it can correctly parse them into JavaScript objects.
 
-```sh
-npm install
+### **Part 3: Documentation and Reflection**
+
+1. **Documentation**: Provide clear comments and documentation in your code to explain how your `myJSONParse` function works and how you used regular expressions.
+2. **Reflect**: Write a brief reflection on your experience implementing a JSON parser with regular expressions. Discuss any challenges you encountered and how you addressed them.
+
+### **Submission**
+
+Submit your JavaScript code for the `myJSONParse` function, along with any test cases you used to validate its correctness. Include the documentation and reflection as well.
+
+### **Example**
+
+Here's a simplified example structure of what your code might look like:
+
+```jsx
+function myJSONParse(jsonString) {
+  // Implement JSON parsing with regular expressions...
+}
+
+const jsonString = '{"name": "John", "age": 30, "city": "New York"}';
+const jsonObject = myJSONParse(jsonString);
+
+console.log(jsonObject); // Should output the parsed JavaScript object.
 ```
-### Building the Project
-```sh
-npm run build
-```
 
-### Running the Project
-```sh
-npm start
-```
+### **Bonus Challenge**
 
-### Running the Tests
-```sh
-npm test
-```
-
-## Performance Analysis
-
-### Hash Function
-The custom hash function implemented in this project uses a polynomial accumulation with the prime base of 31 to distribute keys evenly across the hash table. The hash function has a time complexity of O(n), where n is the length of the key.
-
-### Operations
-- **Insertion**: Average-case O(1), worst-case O(n) if the table is full and rehashing occurs. With dynamic resizing, the insertion operation remains efficient even as the table grows.
-- **Deletion**: Average-case O(1), but can degrade to O(n) in scenarios with extensive collisions and when a deep scan is needed to find the item. Dynamic resizing helps maintain a balanced load factor, reducing the likelihood of such scenarios.
-- **Retrieval**: Generally O(1) on average, but can escalate to O(n) under heavy collisions and nearly full table conditions. Dynamic resizing helps prevent the table from becoming overly full, preserving efficient retrieval times.
-
-### Trade-offs
-- **Space vs. Time**: Achieving efficient collision management often requires additional space or increases complexity. Dynamic resizing adds overhead to insertion operations but improves overall performance by keeping the load factor within an optimal range.
-- **Linear Probing**: While simple, linear probing can lead to clustering, which worsens performance as the load factor increases. Dynamic resizing mitigates clustering by redistributing keys across a larger array when necessary.
-
-## Authors
-- Marlena Dulęba
-
-## License
-- This project is licensed under the ISC License.
+For an extra challenge, consider extending your `myJSONParse` function to handle additional JSON features, such as Unicode escapes, handling of special characters in strings, and custom revivers similar to the native `JSON.parse` function.
