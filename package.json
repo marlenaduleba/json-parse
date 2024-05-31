@@ -1,7 +1,7 @@
 {
-  "name": "hash-table",
+  "name": "json-parse",
   "version": "1.0.0",
-  "description": "A custom implementation of a hash table in TypeScript with a unique hash function and collision resolution strategies.",
+  "description": "A simplified JSON parser implemented in TypeScript using regular expressions.",
   "main": "index.js",
   "type": "module",
   "scripts": {
