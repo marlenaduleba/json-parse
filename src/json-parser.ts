@@ -1,34 +1,30 @@
 /**
- * Parses a JSON-formatted string into a corresponding JavaScript object.
- * This implementation uses regular expressions to tokenize and parse the input string.
- *
- * @param {string} jsonString - The JSON-formatted string to be parsed.
- * @returns {any} - The JavaScript object representation of the parsed JSON string.
- * @throws {SyntaxError} - Throws an error if the JSON string is malformed.
+ * Parses a JSON-formatted string into a JavaScript object, with support for Unicode escapes and a custom reviver function.
+ * @param {string} jsonString - The JSON string to parse.
+ * @param {Function} [reviver] - An optional function that transforms the results. This function is called for each member of the object.
+ * @returns {any} - The parsed JavaScript object.
+ * @throws {SyntaxError} - Throws an error if the JSON string is invalid.
  */
-function myJSONParse(jsonString: string) {
-  // Array to store the tokens identified in the JSON string.
+function myJSONParse(
+  jsonString: string,
+  reviver?: (key: any, value: any) => any
+): any {
+  // Tokenization using regular expressions
   const tokens: string[] = [];
-
-  // Regular expression to tokenize the JSON string.
-  // It matches strings, booleans, null, numbers, and punctuation characters used in JSON syntax.
   const regex =
-    /"((?:\\.|[^"\\])*)"|true|false|null|-?[0-9]+(?:\.[0-9]+)?|\[|\]|\{|\}|:|,/g;
+    /"(?:\\(?:["\\/bfnrt]|u[0-9a-fA-F]{4})|[^"\\])*"|true|false|null|-?[0-9]+(?:\.[0-9]+)?|\[|\]|\{|\}|:|,/g;
   let match: RegExpExecArray | null;
 
-  // Execute the regular expression on the JSON string and store the matches in the tokens array.
   while ((match = regex.exec(jsonString)) !== null) {
     tokens.push(match[0]);
   }
 
-  // Helper function to parse the next value from the tokens array.
+  // Parsing algorithm to process tokens and construct the JavaScript object
   const parseValue = (): any => {
-    // Retrieve the next token from the tokens array.
     const token = tokens.shift();
     if (token === undefined)
       throw new SyntaxError("Unexpected end of JSON input");
 
-    // Determine the type of the token and parse it accordingly.
     switch (token) {
       case "true":
         return true;
@@ -38,7 +34,6 @@ function myJSONParse(jsonString: string) {
         return null;
       case "[": {
         const arr: any[] = [];
-        // Parse array elements until the closing bracket is encountered.
         while (tokens[0] !== "]") {
           arr.push(parseValue());
           if (tokens[0] === ",") tokens.shift();
@@ -48,7 +43,6 @@ function myJSONParse(jsonString: string) {
       }
       case "{": {
         const obj: Record<string, any> = {};
-        // Parse object key-value pairs until the closing brace is encountered.
         while (tokens[0] !== "}") {
           const key = parseValue();
           if (typeof key !== "string")
@@ -62,25 +56,31 @@ function myJSONParse(jsonString: string) {
         return obj;
       }
       default: {
-        // Handle strings, numbers, and invalid tokens.
-        if (/^"((?:\\.|[^"\\])*)"$/.test(token)) {
-          // Remove quotes and unescape characters in the string.
-          return token
-            .slice(1, -1)
-            .replace(/\\"/g, '"')
-            .replace(/\\\\/g, "\\")
-            .replace(/\\n/g, "\n");
+        if (/^"(?:\\(?:["\\/bfnrt]|u[0-9a-fA-F]{4})|[^"\\])*"$/.test(token)) {
+          return JSON.parse(token); // Use native JSON.parse to handle escapes correctly
         }
-        if (/^-?[0-9]+(?:\.[0-9]+)?$/.test(token)) {
-          return Number(token); // Convert numeric tokens to numbers.
-        }
+        if (/^-?[0-9]+(?:\.[0-9]+)?$/.test(token)) return Number(token);
         throw new SyntaxError(`Unexpected token: ${token}`);
       }
     }
   };
 
-  // Parse the value from the tokens and return the resulting JavaScript object.
-  return parseValue();
+  const parsedObject = parseValue();
+
+  // Apply reviver function if provided
+  const applyReviver = (holder: any, key: any): any => {
+    const value = holder[key];
+    if (value && typeof value === "object") {
+      for (const k in value) {
+        if (Object.prototype.hasOwnProperty.call(value, k)) {
+          value[k] = applyReviver(value, k);
+        }
+      }
+    }
+    return reviver ? reviver.call(holder, key, value) : value;
+  };
+
+  return reviver ? applyReviver({ "": parsedObject }, "") : parsedObject;
 }
 
 export default myJSONParse;

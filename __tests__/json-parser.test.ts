@@ -75,4 +75,28 @@ describe("myJSONParse", () => {
     };
     expect(myJSONParse(jsonString)).toEqual(expectedObject);
   });
+
+  // Test parsing JSON with Unicode escapes.
+  test("should parse JSON with Unicode escapes", () => {
+    const jsonString = '{"unicode": "\\u0048\\u0065\\u006C\\u006C\\u006F"}';
+    const expectedObject = { unicode: "Hello" };
+    expect(myJSONParse(jsonString)).toEqual(expectedObject);
+  });
+
+  // Test parsing JSON with a custom reviver function.
+  test("should parse JSON with a custom reviver function", () => {
+    const jsonString =
+      '{"name": "John", "age": 30, "unicode": "\\u0048\\u0065\\u006C\\u006C\\u006F"}';
+    const reviver = (key: any, value: any) => {
+      if (key === "age") {
+        return value + 1; // Increment age by 1
+      }
+      if (key === "unicode") {
+        return value.toUpperCase(); // Convert unicode to uppercase
+      }
+      return value;
+    };
+    const expectedObject = { name: "John", age: 31, unicode: "HELLO" };
+    expect(myJSONParse(jsonString, reviver)).toEqual(expectedObject);
+  });
 });

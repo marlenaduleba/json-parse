@@ -1,38 +1,44 @@
 import myJSONParse from "./json-parser.js";
 
-// Example of a complex JSON string containing arrays and objects
-const jsonString = `
-{
-    "name": "Alice",
-    "age": 28,
-    "address": {
-        "street": "123 Main St",
-        "city": "Wonderland",
-        "zip": "12345"
-    },
-    "phoneNumbers": [
-        {
-            "type": "home",
-            "number": "123-456-7890"
+/**
+ * Demonstrates the usage of the myJSONParse function with a complex JSON string.
+ */
+function main() {
+  const jsonString = `
+    {
+        "name": "John Doe",
+        "age": 30,
+        "isAdmin": false,
+        "courses": ["Math", "Science", "History"],
+        "address": {
+            "street": "123 Main St",
+            "city": "Anytown",
+            "zipcode": "12345"
         },
-        {
-            "type": "work",
-            "number": "987-654-3210"
-        }
-    ],
-    "email": "alice@example.com",
-    "isStudent": false,
-    "scores": [99, 87, 92.5],
-    "favorites": {
-        "color": "blue",
-        "food": "pizza",
-        "activities": ["reading", "hiking", "swimming"]
+        "scores": {
+            "math": 95,
+            "science": 88.5,
+            "history": 92,
+            "english": null
+        },
+        "graduated": null,
+        "comments": "He said, \\"Hello, world!\\" with a smile.\\nThis is a multiline comment.",
+        "unicode": "\\u0048\\u0065\\u006C\\u006C\\u006F"
+    }`;
+
+  const reviver = (key: any, value: any) => {
+    if (typeof value === "string" && key === "unicode") {
+      return value.toUpperCase(); // Example transformation
     }
+    return value;
+  };
+
+  try {
+    const jsonObject = myJSONParse(jsonString, reviver);
+    console.log("Parsed JSON object:", jsonObject);
+  } catch (error) {
+    console.error("Error parsing JSON string:", error);
+  }
 }
-`;
 
-// Parse the JSON string using the custom myJSONParse function
-const parsedObject = myJSONParse(jsonString);
-
-// Log the parsed object to the console
-console.log(parsedObject);
+main();
