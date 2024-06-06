@@ -1,47 +1,64 @@
+# JSON Parser
 
-# JSON.parse function and REGEXP
+This repository contains an implementation of a custom JSON parser in TypeScript. The project demonstrates how to parse JSON strings using regular expressions and build a corresponding JavaScript object.
 
-### Task
+## Getting Started
 
-Implement a simplified version of the `JSON.parse` function in JavaScript using regular expressions. This assignment will test your understanding of JSON syntax and your ability to use regular expressions for pattern matching.
+### Prerequisites
 
-### **Part 1: JSON Syntax Understanding**
+- Node.js
+- npm (Node Package Manager)
 
-1. **JSON Syntax**: Begin by revisiting the JSON (JavaScript Object Notation) syntax. Make sure you understand the basic structure of JSON objects, arrays, strings, numbers, booleans, and null values.
-2. **Parsing Rules**: Familiarize yourself with the rules for parsing JSON, including how to handle nested objects and arrays.
+### Installing
 
-### **Part 2: JSON Parser Implementation**
+1. Clone the repository
+2. Navigate to the project directory
+3. Install dependencies
 
-1. **Implement JSON.parse**: Create a JavaScript function called `myJSONParse` that takes a JSON-formatted string as input and returns the corresponding JavaScript object. You should use regular expressions to tokenize and parse the input string.
-2. **Tokenization**: Implement tokenization by using regular expressions to identify JSON elements (objects, arrays, strings, numbers, booleans, null, etc.) in the input string.
-3. **Parsing**: Implement a parsing algorithm that processes the tokens generated in the previous step and constructs the corresponding JavaScript object.
-4. **Error Handling**: Ensure your implementation handles common JSON syntax errors gracefully and provides informative error messages when parsing fails.
-5. **Testing**: Test your `myJSONParse` function with various JSON strings to ensure it can correctly parse them into JavaScript objects.
-
-### **Part 3: Documentation and Reflection**
-
-1. **Documentation**: Provide clear comments and documentation in your code to explain how your `myJSONParse` function works and how you used regular expressions.
-2. **Reflect**: Write a brief reflection on your experience implementing a JSON parser with regular expressions. Discuss any challenges you encountered and how you addressed them.
-
-### **Submission**
-
-Submit your JavaScript code for the `myJSONParse` function, along with any test cases you used to validate its correctness. Include the documentation and reflection as well.
-
-### **Example**
-
-Here's a simplified example structure of what your code might look like:
-
-```jsx
-function myJSONParse(jsonString) {
-  // Implement JSON parsing with regular expressions...
-}
-
-const jsonString = '{"name": "John", "age": 30, "city": "New York"}';
-const jsonObject = myJSONParse(jsonString);
-
-console.log(jsonObject); // Should output the parsed JavaScript object.
+```sh
+npm install
 ```
 
-### **Bonus Challenge**
+### Building the Project
 
-For an extra challenge, consider extending your `myJSONParse` function to handle additional JSON features, such as Unicode escapes, handling of special characters in strings, and custom revivers similar to the native `JSON.parse` function.
+```sh
+npm run build
+```
+
+### Running the Project
+
+```sh
+npm start
+```
+
+### Running the Tests
+
+```sh
+npm test
+```
+
+## Features
+
+- Parses JSON strings into JavaScript objects.
+- Supports nested objects and arrays.
+- Handles boolean values, null, and numbers (including negative and floating-point numbers).
+- Processes Unicode escape sequences.
+- Allows custom transformations using a reviver function.
+
+## Reflection
+
+Implementing the `myJSONParse` function was a challenging yet rewarding experience. One of the primary challenges was handling various JSON features such as nested structures, different data types, and escape sequences using regular expressions. To address these challenges, I incrementally built and tested the function, ensuring that each component (tokenization and parsing) worked correctly before moving on to the next.
+
+Extending the function to support a custom reviver function and handling Unicode escapes added complexity but also made the parser more versatile and closer in functionality to the native `JSON.parse`. This project has deepened my understanding of both regular expressions and the intricacies of JSON parsing.
+
+## Authors
+
+- Marlena Dulęba
+
+## License
+
+- This project is licensed under the ISC License.
+
+```
+
+```
