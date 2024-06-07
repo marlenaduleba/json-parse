@@ -58,7 +58,3 @@ Extending the function to support a custom reviver function and handling Unicode
 ## License
 
 - This project is licensed under the ISC License.
-
-```
-
-```
